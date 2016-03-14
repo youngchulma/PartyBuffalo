@@ -7,49 +7,66 @@ namespace CLKsFATXLib.STFS
 {
     class STFSPackage
     {
-        public STFSPackage(System.IO.Stream InStream)
+        public STFSPackage(System.IO.Stream aInStream)
         {
-            PackageStream = InStream;
-            if (!IsSTFSPackage())
+            PackageStream = aInStream;
+            if (IsSTFSPackage() != true)
             {
                 Close();
                 throw new Exception("File is not a valid STFS package!");
             }
+            else
+            {
+                // File is valid STFS package!
+            }
         }
 
         /// <summary>
-        /// If the file is an STFS package, it will get the icon for the game
+        /// 如果文件是STFS包，获取游戏的ICON
         /// </summary>
+        /// <returns>返回游戏的ICON</returns>
         public System.Drawing.Image TitleIcon()
         {
+            int sSize = 0;
+
             // Get a new reader for this file
-            Streams.Reader r = new CLKsFATXLib.Streams.Reader(PackageStream);
-            r.BaseStream.Position = (long)Geometry.STFSOffsets.TitleImageSize;
-            int Size = r.ReadInt32();
-            r.BaseStream.Position = (long)Geometry.STFSOffsets.TitleImage;
+            Streams.Reader sReader = new Streams.Reader(PackageStream);
+            sReader.BaseStream.Position = (long)Geometry.STFSOffsets.TitleImageSize;
+            sReader.BaseStream.Position = (long)Geometry.STFSOffsets.TitleImage;
+            sSize = sReader.ReadInt32();
+
             try
             {
-                return System.Drawing.Image.FromStream(new System.IO.MemoryStream(r.ReadBytes(Size)));
+                return System.Drawing.Image.FromStream(new System.IO.MemoryStream(sReader.ReadBytes(sSize)));
             }
-            catch { return null; }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
-        /// If the file is an STFS package, it will get the package's icon (non-game icon)
+        /// 如果文件是STFS包，获取包的ICON(非游戏ICON)
         /// </summary>
-        /// <returns>STFS package content icon</returns>
+        /// <returns>返回STFS包的ICON</returns>
         public System.Drawing.Image ContentIcon()
         {
+            int sSize = 0;
+
             // Get a new reader for this file
-            Streams.Reader r = new CLKsFATXLib.Streams.Reader(PackageStream);
-            r.BaseStream.Position = (long)Geometry.STFSOffsets.ContentImageSize;
-            int Size = r.ReadInt32();
-            r.BaseStream.Position = (long)Geometry.STFSOffsets.ContentImage;
+            Streams.Reader sReader = new Streams.Reader(PackageStream);
+            sReader.BaseStream.Position = (long)Geometry.STFSOffsets.ContentImageSize;
+            sReader.BaseStream.Position = (long)Geometry.STFSOffsets.ContentImage;
+            sSize = sReader.ReadInt32();
+
             try
             {
-                return System.Drawing.Image.FromStream(new System.IO.MemoryStream(r.ReadBytes(Size)));
+                return System.Drawing.Image.FromStream(new System.IO.MemoryStream(sReader.ReadBytes(sSize)));
             }
-            catch { return null; }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -59,11 +76,11 @@ namespace CLKsFATXLib.STFS
         {
             if (PackageStream.Length >= 0xA000)
             {
-                Streams.Reader r = new CLKsFATXLib.Streams.Reader(PackageStream);
+                Streams.Reader r = new Streams.Reader(PackageStream);
                 r.BaseStream.Position = 0;
                 byte[] Buffer = r.ReadBytes(0x200);
                 
-                r = new CLKsFATXLib.Streams.Reader(new System.IO.MemoryStream(Buffer));
+                r = new Streams.Reader(new System.IO.MemoryStream(Buffer));
                 uint val = r.ReadUInt32();
                 
                 switch (val)
