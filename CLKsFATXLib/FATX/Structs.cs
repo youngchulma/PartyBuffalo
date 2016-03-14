@@ -6,88 +6,119 @@ using System.ComponentModel;
 
 namespace CLKsFATXLib.Structs
 {
+    /// <summary>
+    /// 数据项数据
+    /// </summary>
     public struct EntryData
     {
         /// <summary>
-        /// Size of the name
+        /// 数据项名称长度(Byte)
         /// </summary>
         public byte NameSize;
         /// <summary>
-        /// Entry flags
+        /// 数据项标志
         /// </summary>
         public byte Flags;
         /// <summary>
-        /// Entry name
+        /// 数据项名称
         /// </summary>
         public string Name;
         /// <summary>
-        /// Beginning cluster (block) for the entry
+        /// 数据项开始簇(Block)
         /// </summary>
         public UInt32 StartingCluster;
         /// <summary>
-        /// Size of the entry (0x00 for folders)
+        /// 数据项大小(文件夹大小为0x00)
         /// </summary>
         public UInt32 Size;
+        /// <summary>
+        /// 数据项创建日期
+        /// </summary>
         public UInt16 CreationDate;
+        /// <summary>
+        /// 数据项创建时间
+        /// </summary>
         public UInt16 CreationTime;
+        /// <summary>
+        /// 数据项访问日期
+        /// </summary>
         public UInt16 AccessDate;
+        /// <summary>
+        /// 数据项访问时间
+        /// </summary>
         public UInt16 AccessTime;
+        /// <summary>
+        /// 数据项修改日期
+        /// </summary>
         public UInt16 ModifiedDate;
+        /// <summary>
+        /// 数据项修改时间
+        /// </summary>
         public UInt16 ModifiedTime;
         /// <summary>
-        /// Offset for the entry
+        /// 数据项偏移量
         /// </summary>
         public long EntryOffset;
     }
 
     public struct STFSInfo
     {
-        // public System.Drawing.Image ContentImage;
-        // public System.Drawing.Image TitleImage;
         /// <summary>
-        /// The identifier for the console the package was created one
+        /// STFS包的ICON
+        /// </summary>
+        public System.Drawing.Image ContentImage;
+        /// <summary>
+        /// STFS包中游戏ICON
+        /// </summary>
+        public System.Drawing.Image TitleImage;
+        /// <summary>
+        /// STFS包生成时控制台识别符
         /// </summary>
         public byte[] ConsoleID;
         /// <summary>
-        /// Identifier for the device that the package was assigned to
+        /// STFS包生成时设备的识别符
         /// </summary>
         public byte[] DeviceID;
         /// <summary>
-        /// Package header magic
+        /// STFS包的魔数值(Magic Number)
         /// </summary>
         public byte[] Magic;
         /// <summary>
-        /// Identifier for the profile which the package is tied to (depending on transfer flags); the profile which the package was created with
+        /// STFS包创建时配置文件ID(取决于transfer flags);
         /// </summary>
         public byte[] ProfileID;
         /// <summary>
-        /// Title (game/application) name
+        /// STFS包中游戏或应用的名称
         /// </summary>
         public string TitleName;
         /// <summary>
-        /// Local package name
+        /// STFS包的名称
         /// </summary>
         public string ContentName;
         /// <summary>
-        /// Title (game/application) identifier
+        /// STFS包中游戏或应用的识别符
         /// </summary>
         public uint TitleID;
     }
 
     /// <summary>
-    /// Provides information about a given partition
+    /// 提供给定分区的规定信息
     /// </summary>
     public struct PartitionInfo
     {
-        [Category("Header"), DisplayName("Partition Magic"), Description("The partition magic displayed in decimal")]
         /// <summary>
-        /// Partition magic
+        /// 对应分区魔数的十进制数值(Magic Number)
         /// </summary>
+        [Category("Header"), DisplayName("Partition Magic"), Description("The partition magic displayed in decimal")]
         public uint Magic
         {
             get;
             internal set;
         }
+
+        /// <summary>
+        /// 对应分区魔数的十六进制数值
+        /// </summary>
         [Category("Header"), DisplayName("Partition Magic"), Description("The partition magic displayed in hex")]
         public string MagicAsString
         {
@@ -97,6 +128,9 @@ namespace CLKsFATXLib.Structs
             }
         }
 
+        /// <summary>
+        /// 对应分区簇大小的十进制数值
+        /// </summary>
         [Category("Header"), DisplayName("Cluster Size"), Description("The size of each cluster in the partition in decimal")]
         /// <summary>
         /// Cluster size
@@ -107,6 +141,9 @@ namespace CLKsFATXLib.Structs
             internal set;
         }
 
+        /// <summary>
+        /// 对应分区簇大小的十六进制数值
+        /// </summary>
         [Category("Header"), DisplayName("Cluster Size"), Description("The size of each cluster in the partition in hex")]
         public string ClusterSizeAsString
         {
@@ -116,16 +153,19 @@ namespace CLKsFATXLib.Structs
             }
         }
 
-        [Category("Header"), DisplayName("Partition ID"), Description("The partition identifier in decimal")]
         /// <summary>
-        /// Partition ID
+        /// 对应分区识别符的十进制数值
         /// </summary>
+        [Category("Header"), DisplayName("Partition ID"), Description("The partition identifier in decimal")]
         public uint ID
         {
             get;
             internal set;
         }
 
+        /// <summary>
+        /// 对应分区识别符的十六进制数值
+        /// </summary>
         [Category("Header"), DisplayName("Partition ID"), Description("The partition identifier in hex")]
         public string IDAsString
         {
@@ -135,16 +175,19 @@ namespace CLKsFATXLib.Structs
             }
         }
 
-        [Category("Header"), DisplayName("Sectors Per Cluster"), Description("The number of sectors per cluster in decimal")]
         /// <summary>
-        /// Sectors per cluster
+        /// 每个簇对应扇区的十进制数值
         /// </summary>
+        [Category("Header"), DisplayName("Sectors Per Cluster"), Description("The number of sectors per cluster in decimal")]
         public uint SectorsPerCluster
         {
             get;
             internal set;
         }
 
+        /// <summary>
+        /// 每个簇对应扇区的十六进制数值
+        /// </summary>
         [Category("Header"), DisplayName("Sectors Per Cluster"), Description("The number of sectors per cluster in hex")]
         public string SectorsPerClusterAsString
         {
@@ -154,27 +197,30 @@ namespace CLKsFATXLib.Structs
             }
         }
 
-
-        [Category("FAT"), DisplayName("FAT Copies"), Description("The number of file allocation table copies")]
         /// <summary>
-        /// Number of FAT copies for the partition
+        /// 文件分区表(File Allocation Table)备份数
         /// </summary>
+        [Category("FAT"), DisplayName("FAT Copies"), Description("The number of file allocation table copies")]
         public uint FATCopies
         {
             get;
             internal set;
         }
 
-        [Category("FAT"), DisplayName("FAT Size"), Description("The file allocation table size in decimal")]
         /// <summary>
-        /// FAT size for the partition
+        /// 文件分区表大小的十进制数值
         /// </summary>
+        [Category("FAT"), DisplayName("FAT Size"), Description("The file allocation table size in decimal")]
+
         public long FATSize
         {
             get;
             internal set;
         }
 
+        /// <summary>
+        /// 文件分区表大小的十六进制数值
+        /// </summary>
         [Category("FAT"), DisplayName("FAT Size"), Description("The file allocation table size in hex")]
         public string FATSizeAsString
         {
@@ -184,6 +230,9 @@ namespace CLKsFATXLib.Structs
             }
         }
 
+        /// <summary>
+        /// 文件分区表大小(bytes/KB/GB)
+        /// </summary>
         [Category("FAT"), DisplayName("FAT Size"), Description("The file allocation table size in bytes/KB/GB")]
         public string FATSizeAsFriendly
         {
@@ -193,16 +242,19 @@ namespace CLKsFATXLib.Structs
             }
         }
 
-        [Category("Data"), DisplayName("Data Region Start"), Description("The location in which data starts in decimal")]
         /// <summary>
-        /// Data offset for the partition
+        /// 对应分区数据起始偏移量的十进制数值
         /// </summary>
+        [Category("Data"), DisplayName("Data Region Start"), Description("The location in which data starts in decimal")]
         public long DataOffset
         {
             get;
             internal set;
         }
 
+        /// <summary>
+        /// 对应分区数据起始偏移量的十六进制数值
+        /// </summary>
         [Category("Data"), DisplayName("Data Region Start"), Description("The location in which data starts in hex")]
         public string DataOffsetAsString
         {
@@ -212,16 +264,19 @@ namespace CLKsFATXLib.Structs
             }
         }
 
-        [Category("FAT"), DisplayName("FAT Offset"), Description("The file allocation table starting offset in decimal")]
         /// <summary>
-        /// FAT offset for the partition
+        /// 文件分区表起始偏移量的十进制数值
         /// </summary>
+        [Category("FAT"), DisplayName("FAT Offset"), Description("The file allocation table starting offset in decimal")]
         public long FATOffset
         {
             get;
             internal set;
         }
 
+        /// <summary>
+        /// 文件分区表起始偏移量的十六进制数值
+        /// </summary>
         [Category("FAT"), DisplayName("FAT Offset"), Description("The file allocation table starting offset in hex")]
         public string FATOffsetAsString
         {
@@ -231,16 +286,19 @@ namespace CLKsFATXLib.Structs
             }
         }
 
-        [Category("Partition"), DisplayName("Partition Size"), Description("The partition size in decimal")]
         /// <summary>
-        /// Size of the partition
+        /// 对应分区大小的十进制数值
         /// </summary>
+        [Category("Partition"), DisplayName("Partition Size"), Description("The partition size in decimal")]
         public long Size
         {
             get;
             internal set;
         }
 
+        /// <summary>
+        /// 对应分区大小的十六进制数值
+        /// </summary>
         [Category("Partition"), DisplayName("Partition Size"), Description("The partition size in hex")]
         public string SizeAsString
         {
@@ -250,6 +308,9 @@ namespace CLKsFATXLib.Structs
             }
         }
 
+        /// <summary>
+        /// 分区大小(bytes/KB/MB/GB)
+        /// </summary>
         [Category("Partition"), DisplayName("Partition Size"), Description("The partition size in bytes/KB/MB/GB")]
         public string SizeFriendly
         {
@@ -259,16 +320,19 @@ namespace CLKsFATXLib.Structs
             }
         }
 
-        [Category("Partition"), DisplayName("Partition Offset"), Description("The partition offset in decimal")]
         /// <summary>
-        /// Partition offset
+        /// 分区偏移量的十进制数值
         /// </summary>
+        [Category("Partition"), DisplayName("Partition Offset"), Description("The partition offset in decimal")]
         public long Offset
         {
             get;
             internal set;
         }
 
+        /// <summary>
+        /// 分区偏移量的十六进制数值
+        /// </summary>
         [Category("Partition"), DisplayName("Partition Offset"), Description("The partition offset in hex")]
         public string OffsetAsString
         {
@@ -278,36 +342,39 @@ namespace CLKsFATXLib.Structs
             }
         }
 
-        [Category("Partition"), DisplayName("Partition Name"), Description("The partition name")]
         /// <summary>
-        /// Partition name
+        /// 分区名称
         /// </summary>
+        [Category("Partition"), DisplayName("Partition Name"), Description("The partition name")]
         public string Name
         {
             get;
             internal set;
         }
 
-        [Category("FAT"), DisplayName("Chainmap Size"), Description("The size (in bytes) of a chainmap entry")]
         /// <summary>
-        /// Entry size
+        /// 数据项大小(bytes)
         /// </summary>
+        [Category("FAT"), DisplayName("Chainmap Size"), Description("The size (in bytes) of a chainmap entry")]
         public int EntrySize
         {
             get;
             internal set;
         }
 
-        [Category("Partition"), DisplayName("Clusters"), Description("The number of clusters in this partition in decimal")]
         /// <summary>
-        /// Number of clusters in the partition
+        /// 分区中簇数量的十进制数值
         /// </summary>
+        [Category("Partition"), DisplayName("Clusters"), Description("The number of clusters in this partition in decimal")]
         public uint Clusters
         {
             get;
             internal set;
         }
 
+        /// <summary>
+        /// 分区中簇数量的十六进制数值
+        /// </summary>
         [Category("Partition"), DisplayName("Clusters"), Description("The number of clusters in this partition in hex")]
         public string ClustersAsString
         {
@@ -317,11 +384,10 @@ namespace CLKsFATXLib.Structs
             }
         }
 
-
-        [Category("FAT"), DisplayName("Don't mind this"), Description("It's dumb.")]
         /// <summary>
-        /// The REAL size of the file allocation table
+        /// 文件分区表实际大小
         /// </summary>
+        [Category("FAT"), DisplayName("Don't mind this"), Description("It's dumb.")]
         public long RealFATSize
         {
             get;
@@ -329,6 +395,9 @@ namespace CLKsFATXLib.Structs
         }
     }
 
+    /// <summary>
+    /// 队列
+    /// </summary>
     public struct Queue
     {
         public Folder Folder;
@@ -336,6 +405,9 @@ namespace CLKsFATXLib.Structs
         public bool Writing;
     }
 
+    /// <summary>
+    /// 已存在数据项
+    /// </summary>
     public struct ExistingEntry
     {
         // The entry that already exists
@@ -344,18 +416,27 @@ namespace CLKsFATXLib.Structs
         public string NewPath;
     }
 
+    /// <summary>
+    /// 释放的数据项
+    /// </summary>
     public struct FreeEntry
     {
         public bool UsingDeletedEntry;
         public EntryData NewEntryData;
     }
 
+    /// <summary>
+    /// 被缓存的标题名称
+    /// </summary>
     public struct CachedTitleName
     {
         public uint ID;
         public string Name;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public struct WriteResult
     {
         // The entry that either exists, or was written
@@ -365,6 +446,9 @@ namespace CLKsFATXLib.Structs
         public Entry AttemptedEntryToMove;
     }
 
+    /// <summary>
+    /// 文件操作
+    /// </summary>
     public struct FileAction
     {
         public int Progress { get; internal set; }
@@ -375,6 +459,9 @@ namespace CLKsFATXLib.Structs
     
     public delegate void FileActionChanged(ref FileAction Progress);
 
+    /// <summary>
+    /// 文件夹操作
+    /// </summary>
     public struct FolderAction
     {
         public int Progress { get; internal set; }
@@ -386,6 +473,9 @@ namespace CLKsFATXLib.Structs
 
     public delegate void FolderActionChanged(ref FolderAction Progress);
 
+    /// <summary>
+    /// 
+    /// </summary>
     public struct EntryEventArgs
     {
         public string FullParentPath { get; internal set; }
